@@ -18,6 +18,7 @@ import com.carrey.beautiful.view.photoview.PhotoViewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -62,8 +63,6 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.home_images);
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mMainServer = new MainServer();
-
-
 
 
         mMainServer.getCategory().observeOn(AndroidSchedulers.mainThread())
@@ -127,15 +126,24 @@ public class MainActivity extends AppCompatActivity {
 //        startActivity(new Intent(this, PhotoViewActivity.class).putStringArrayListExtra(PhotoViewActivity.EXTRA_PHOTOS, images));
     }
 
+    private List<CategoryList.TngouBean> data = new ArrayList<>();
+    private ListAdapter listAdapter;
+
     private void bindList(CategoryList categoryList) {
-        ListAdapter listAdapter = new ListAdapter(MainActivity.this, categoryList.tngou);
-        listAdapter.mItemClickLinster = new ListAdapter.ItemClickLinster() {
-            @Override
-            public void onItemClick(CategoryList.TngouBean tngouBean) {
-                loadDetal(tngouBean.id);
-            }
-        };
-        mRecyclerView.setAdapter(listAdapter);
+        data.clear();
+        data.addAll(categoryList.tngou);
+        if (listAdapter == null) {
+            listAdapter = new ListAdapter(MainActivity.this, data);
+            listAdapter.mItemClickLinster = new ListAdapter.ItemClickLinster() {
+                @Override
+                public void onItemClick(CategoryList.TngouBean tngouBean) {
+                    loadDetal(tngouBean.id);
+                }
+            };
+            mRecyclerView.setAdapter(listAdapter);
+        } else {
+            listAdapter.notifyDataSetChanged();
+        }
     }
 
     public void loadDetal(int id) {
@@ -148,6 +156,11 @@ public class MainActivity extends AppCompatActivity {
                                        images.add(bean.src);
                                    }
                                    startActivity(new Intent(MainActivity.this, PhotoViewActivity.class).putStringArrayListExtra(PhotoViewActivity.EXTRA_PHOTOS, images));
+                               }
+                           }, new Action1<Throwable>() {
+                               @Override
+                               public void call(Throwable throwable) {
+
                                }
                            }
 

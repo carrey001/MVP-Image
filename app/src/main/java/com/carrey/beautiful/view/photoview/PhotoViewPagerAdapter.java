@@ -53,7 +53,7 @@ public class PhotoViewPagerAdapter extends RecyclingPagerAdapter {
             }
         });
 //        Glide.with(mContext).load(url).into(photoView);
-        Glide.with(mContext).load(UrlConst.ImageHost+url).into(photoView);
+        Glide.with(mContext).load(UrlConst.ImageHost+url+"_320x240").into(photoView);
 //        mBitmapTools.display(photoView, url, new DefaultBitmapLoadCallBack<View>() {
 //
 //            @Override
