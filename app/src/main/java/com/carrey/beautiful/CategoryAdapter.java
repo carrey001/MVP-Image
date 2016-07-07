@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.carrey.beautiful.bean.Category;
 
 import java.util.List;
 
@@ -32,6 +34,15 @@ public class CategoryAdapter<T> extends RecyclerView.Adapter<CategoryAdapter.Vie
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
+        final Category.TngouBean t = (Category.TngouBean) mItems.get(position);
+        holder.mTextView.setText(t.name);
+        holder.mTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCategoryClickLinster.click(t);
+
+            }
+        });
     }
 
     @Override
@@ -46,14 +57,17 @@ public class CategoryAdapter<T> extends RecyclerView.Adapter<CategoryAdapter.Vie
     static class ViewHolder extends RecyclerView.ViewHolder {
 
 
+        private TextView mTextView;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "111", 1).show();
-                }
-            });
+            mTextView = (TextView) itemView.findViewById(R.id.category_name);
         }
+    }
+
+    public CategoryClickLinster mCategoryClickLinster;
+
+    public interface CategoryClickLinster {
+        void click(Category.TngouBean tngouBean);
     }
 }

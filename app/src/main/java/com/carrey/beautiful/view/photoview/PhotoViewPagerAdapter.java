@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.carrey.beautiful.R;
+import com.carrey.beautiful.util.UrlConst;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class PhotoViewPagerAdapter extends RecyclingPagerAdapter {
             }
         });
 //        Glide.with(mContext).load(url).into(photoView);
-        Glide.with(mContext).load(url).into(photoView);
+        Glide.with(mContext).load(UrlConst.ImageHost+url).into(photoView);
 //        mBitmapTools.display(photoView, url, new DefaultBitmapLoadCallBack<View>() {
 //
 //            @Override

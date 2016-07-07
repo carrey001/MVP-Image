@@ -5,12 +5,12 @@ import android.content.Context;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.carrey.beautiful.bean.Category;
 import com.nineoldandroids.view.ViewHelper;
-
-import java.util.List;
 
 /**
  * Created by sunning on 16/3/3.
@@ -69,10 +69,17 @@ public class DrawerViewController {
     }
 
 
-    public void setCategorylist(List data) {
+    public void setCategorylist(Category data) {
         if (mCategoryAdapter == null) {
-            mCategoryAdapter = new CategoryAdapter(context, data);
+            mCategoryAdapter = new CategoryAdapter<Category.TngouBean>(context, data.tngou);
             categorylist.setAdapter(mCategoryAdapter);
+            mCategoryAdapter.mCategoryClickLinster = new CategoryAdapter.CategoryClickLinster() {
+                @Override
+                public void click(Category.TngouBean tngouBean) {
+                    ((MainActivity) context).loadList(tngouBean);
+                    mDrawerLayout.closeDrawer(Gravity.LEFT);
+                }
+            };
         }
     }
 
