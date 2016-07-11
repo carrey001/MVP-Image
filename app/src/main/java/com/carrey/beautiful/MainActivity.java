@@ -23,6 +23,7 @@ import java.util.Map;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -93,11 +94,17 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void call(CategoryList categoryList) {
                         bindList(categoryList);
+                        System.out.println("carrey-> next");
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-
+                        System.out.println("carrey-> error"+throwable.getMessage());
+                    }
+                }, new Action0() {
+                    @Override
+                    public void call() {
+                        System.out.println("carrey-> end");
                     }
                 });
     }
